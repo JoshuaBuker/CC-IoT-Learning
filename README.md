@@ -8,7 +8,7 @@ The purpose of this project is to learn basic Fullstack JavaScript applications 
 - Make boilerplate apps for client, server
 - Chat Integration
 - Remote door opening/closing
-- Full turtle control
+- Full turtle control (Manual and AI controlled)
 - Inventory Tracking
 - Minimap from entity sensors
 - Ingame message board
