@@ -7,22 +7,52 @@ const port = 3001;
 
 expressWs(app);
 
-app.ws('/socket', (ws, req) => {
-  console.log('New client connected to /ws');
+const chatMessageClients = [];
+let doorClients = [];
+
+app.ws('/messages', (ws, req) => {
+  console.log('New client connected to /messages');
+  chatMessageClients.push(ws);
 
   // Handle messages received from clients
   ws.on('message', (message) => {
     console.log(`Received: ${message}`);
 
-    // Echo the message back to the client
-    ws.send(`Server says: ${message}`);
+    chatMessageClients.forEach(client => {
+      if (client !== ws && client.readyState === client.OPEN) {
+        client.send(`Broadcast from /messages: ${message}`);
+      }
+    });
   });
 
   // Handle client disconnection
   ws.on('close', () => {
-    console.log('Client disconnected from /ws');
+    console.log('Client disconnected from /messages');
+    chatMessageClients = chatMessageClients.filter(client => client !== ws);
   });
 });
+
+app.ws('/door', (ws, req) => {
+  console.log('New client connected to /door');
+  doorClients.push(ws);
+
+  // Handle messages received from clients
+  ws.on('message', (message) => {
+    console.log(`Received: ${message}`);
+
+    doorClients.forEach(client => {
+      if (client !== ws && client.readyState === client.OPEN) {
+        client.send(`Broadcast from /messages: ${message}`);
+      }
+    });
+  });
+
+  // Handle client disconnection
+  ws.on('close', () => {
+    console.log('Client disconnected from /door');
+    doorClients = doorClients.filter(client => client !== ws);
+  });
+})
 
 app.get('/', (req, res) => {
   res.send("Get Request Successful!");
