@@ -7,7 +7,7 @@ const port = 3001;
 
 expressWs(app);
 
-const chatMessageClients = [];
+let chatMessageClients = [];
 let doorClients = [];
 
 app.ws('/messages', (ws, req) => {
@@ -20,7 +20,7 @@ app.ws('/messages', (ws, req) => {
 
     chatMessageClients.forEach(client => {
       if (client !== ws && client.readyState === client.OPEN) {
-        client.send(`Broadcast from /messages: ${message}`);
+        client.send(message);
       }
     });
   });
@@ -42,7 +42,7 @@ app.ws('/door', (ws, req) => {
 
     doorClients.forEach(client => {
       if (client !== ws && client.readyState === client.OPEN) {
-        client.send(`Broadcast from /messages: ${message}`);
+        client.send(message);
       }
     });
   });
