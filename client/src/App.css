@@ -1,0 +1,18 @@
+.App {
+  height: 100vh;
+}
+
+.chat-btn {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+}
+
+.chat-window-list {
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margins */
+}
+
+.no-bullets {
+  list-style-type: none;
+}
